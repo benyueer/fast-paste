@@ -1,25 +1,30 @@
 {
   "name": "fast-paste",
+  "type": "module",
   "version": "0.1.0",
   "description": "",
-  "type": "module",
+  "license": "MIT",
   "scripts": {
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
-  "license": "MIT",
   "dependencies": {
-    "solid-js": "^1.9.3",
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-opener": "^2"
+    "@tauri-apps/api": "^2.5.0",
+    "@tauri-apps/plugin-opener": "^2",
+    "solid-js": "^1.9.3"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^4.13.2",
+    "@tauri-apps/cli": "^2",
+    "eslint": "^9.27.0",
     "typescript": "~5.6.2",
+    "unocss": "^66.1.2",
     "vite": "^6.0.3",
-    "vite-plugin-solid": "^2.11.0",
-    "@tauri-apps/cli": "^2"
+    "vite-plugin-solid": "^2.11.0"
   }
 }

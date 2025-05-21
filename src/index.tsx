@@ -1,5 +1,13 @@
+import type { TrayIconOptions } from '@tauri-apps/api/tray'
+import { TrayIcon } from '@tauri-apps/api/tray'
 /* @refresh reload */
-import { render } from "solid-js/web";
-import App from "./App";
+import { render } from 'solid-js/web'
+import App from './App'
+import tray_init from './tray'
 
-render(() => <App />, document.getElementById("root") as HTMLElement);
+import './style.css'
+import 'virtual:uno.css'
+
+tray_init()
+
+render(() => <App />, document.getElementById('root') as HTMLElement)
