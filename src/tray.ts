@@ -1,22 +1,27 @@
+/* eslint-disable no-console */
+import type { TrayIconOptions } from '@tauri-apps/api/tray'
+import { defaultWindowIcon } from '@tauri-apps/api/app'
+import { Image as ImageApi } from '@tauri-apps/api/image'
 import { Menu } from '@tauri-apps/api/menu'
 import { TrayIcon } from '@tauri-apps/api/tray'
-import icon from '../public/image.png'
+import { getAllWebviewWindows, getCurrentWebviewWindow, WebviewWindow } from '@tauri-apps/api/webviewWindow'
+import { getAllWindows, getCurrentWindow, Window } from '@tauri-apps/api/window'
+import icon from '../public/icon.png'
 
-function getImgArray() {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.src = icon
-    img.onload = () => {
-      const canvas = document.createElement('canvas')
-      canvas.width = img.width
-      canvas.height = img.height
-      const ctx = canvas.getContext('2d')!
-      ctx.drawImage(img, 0, 0)
-      const imgData = ctx.getImageData(0, 0, img.width, img.height)
-      const uint8Array = new Uint8Array(imgData.data)
-      resolve(uint8Array)
-    }
-  })
+async function getImgArray() {
+  const res = await fetch(icon)
+  const arrayBuffer = await res.arrayBuffer()
+  const image = await ImageApi.fromBytes(arrayBuffer)
+  return image
+}
+
+export async function getWindow(label: string) {
+  return await WebviewWindow.getByLabel(label)
+}
+
+export async function getAllWin() {
+  //  return getAll()
+  return await getAllWindows()
 }
 
 export default async function tray_init() {
@@ -32,29 +37,35 @@ export default async function tray_init() {
       {
         id: 'quit',
         text: '退出',
-        action: () => {
+        action: async () => {
           // 退出逻辑
-          const appWindow = new Window('main')
-          appWindow.close()
+          const appWindow = await getWindow('main')
+          appWindow?.close()
         },
       },
     ],
   })
 
-  const imgArray = await getImgArray()
-  console.log(imgArray)
-
-  const options = {
-    icon: imgArray,
+  const imgArray2 = await getImgArray()
+  const options: TrayIconOptions = {
+    icon: imgArray2,
+    tooltip: 'fast-paste',
     menu,
     menuOnLeftClick: false,
     // 托盘行为
-    action: (event) => {
+    action: async (event) => {
       switch (event.type) {
         case 'Click':
           console.log(
             `mouse ${event.button} button pressed, state: ${event.buttonState}`,
           )
+          // eslint-disable-next-line no-case-declarations
+          const appWindow = await getWindow('main')
+          if (!await appWindow?.isVisible()) {
+            await appWindow?.show()
+            await appWindow?.unminimize()
+            await appWindow?.setFocus()
+          }
           break
         case 'DoubleClick':
           console.log(`mouse ${event.button} button pressed`)
@@ -78,5 +89,6 @@ export default async function tray_init() {
     },
   }
 
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const tray = await TrayIcon.new(options)
 }

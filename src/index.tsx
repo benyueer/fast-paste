@@ -7,6 +7,7 @@ import tray_init from './tray'
 
 import './style.css'
 import 'virtual:uno.css'
+import 'cui-solid/dist/styles/cui.css'
 
 tray_init()
 

@@ -1,19 +1,37 @@
-import { invoke } from '@tauri-apps/api/core'
-import { createSignal } from 'solid-js'
+import { FormItem, Input } from 'cui-solid'
+import { createSignal, For } from 'solid-js'
+import icon from '../public/icon.png'
 
 function App() {
-  const [_greetMsg, setGreetMsg] = createSignal('')
-  const [name, _setName] = createSignal('')
-
-  async function _greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke('greet', { name: name() }))
-  }
+  const [state, setState] = createSignal({
+    sk: '',
+    cList: [],
+  })
 
   return (
-    <main class="bg-red-500 h-screen">
-      <div class="p-4">
-        <h1 class="text-14 font-bold text-white">Fast Paste</h1>
+    <main w-screen h-screen bg-white p-20>
+      <div w-full flex gap-20 items-center>
+        <img src={icon} w-50 h-50 />
+        <p text-20 m-0>Fast Paest</p>
+      </div>
+      <div mt-20>
+        <FormItem label="sk:">
+          <Input
+            type="password"
+            value={state().sk}
+            onInput={sk => setState({ ...state(), sk })}
+            w="[300px_!important]"
+          />
+        </FormItem>
+        <div>
+          <For each={state().cList}>
+            {
+              (item, i) => (
+                <div>i</div>
+              )
+            }
+          </For>
+        </div>
       </div>
     </main>
   )
