@@ -733,6 +733,11 @@
   resolved "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.41.0.tgz#b0b595ad4720259bbb81600750d26a655cac06be"
   integrity sha512-h1J+Yzjo/X+0EAvR2kIXJDuTuyT7drc+t2ALY0nIcGPbTatNOf0VWdhEA2Z4AAjv6X1NJV7SYo5oCTYRJhSlVA==
 
+"@solidjs/router@^0.15.3":
+  version "0.15.3"
+  resolved "https://registry.npmjs.org/@solidjs/router/-/router-0.15.3.tgz#2c5e7aa637980ab7fce956aedc8cd20614163f2a"
+  integrity sha512-iEbW8UKok2Oio7o6Y4VTzLj+KFCmQPGEpm1fS3xixwFBdclFVBvaQVeibl1jys4cujfAK5Kn6+uG2uBm3lxOMw==
+
 "@stylistic/eslint-plugin@^4.2.0":
   version "4.2.0"
   resolved "https://registry.npmjs.org/@stylistic/eslint-plugin/-/eslint-plugin-4.2.0.tgz"
