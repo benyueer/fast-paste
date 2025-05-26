@@ -22,5 +22,6 @@
     "skipLibCheck": true
   },
   "references": [{ "path": "./tsconfig.node.json" }],
-  "include": ["src", "src/html.d.ts"]
+  "include": ["src", "src/html.d.ts"],
+  "exclude": ["node_modules", "dist", "src-tauri"]
 }
