@@ -20,7 +20,6 @@ function App() {
             type="password"
             value={state().sk}
             onInput={sk => setState({ ...state(), sk })}
-            w="[300px_!important]"
           />
         </FormItem>
         <div>
