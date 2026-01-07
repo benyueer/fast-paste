@@ -6,6 +6,8 @@ import { Menu } from '@tauri-apps/api/menu'
 import { TrayIcon } from '@tauri-apps/api/tray'
 import { getAllWebviewWindows, getCurrentWebviewWindow, WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { getAllWindows, getCurrentWindow, Window } from '@tauri-apps/api/window'
+import { exit } from '@tauri-apps/plugin-process'
+import { moveWindow, Position } from '@tauri-apps/plugin-positioner'
 import icon from '../public/icon.png'
 
 async function getImgArray() {
@@ -39,8 +41,9 @@ export default async function tray_init() {
         text: '退出',
         action: async () => {
           // 退出逻辑
-          const appWindow = await getWindow('main')
-          appWindow?.close()
+          // const appWindow = await getWindow('main')
+          // appWindow?.close()
+          await exit(0)
         },
       },
     ],
@@ -48,23 +51,32 @@ export default async function tray_init() {
 
   const imgArray2 = await getImgArray()
   const options: TrayIconOptions = {
+    id: 'fast-paste',
     icon: imgArray2,
     tooltip: 'fast-paste',
     menu,
     menuOnLeftClick: false,
     // 托盘行为
     action: async (event) => {
+      console.log(event)
       switch (event.type) {
         case 'Click':
           console.log(
             `mouse ${event.button} button pressed, state: ${event.buttonState}`,
           )
-          // eslint-disable-next-line no-case-declarations
+          if (event.buttonState === 'Down') {
+            return
+          }
+            // eslint-disable-next-line no-case-declarations
           const appWindow = await getWindow('main')
           if (!await appWindow?.isVisible()) {
+            await moveWindow(Position.TrayCenter)
             await appWindow?.show()
             await appWindow?.unminimize()
+            await appWindow?.setAlwaysOnTop(true)
             await appWindow?.setFocus()
+          } else {
+            await appWindow?.hide()
           }
           break
         case 'DoubleClick':
@@ -89,6 +101,5 @@ export default async function tray_init() {
     },
   }
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
   const tray = await TrayIcon.new(options)
 }

@@ -13,16 +13,24 @@
     "windows": [
       {
         "title": "fast-paste",
-        "width": 800,
-        "height": 600
+        "width": 500,
+        "height": 300,
+        "decorations": false,
+        "skipTaskbar": true,
+        "transparent": true,
+        "visible": false
       }
     ],
     "security": {
       "csp": null
+    },
+    "trayIcon": {
+      "iconPath": "icons/icon.png"
     }
   },
   "bundle": {
     "active": true,
+    "resources": ["../public/icon.png"],
     "targets": "all",
     "icon": [
       "icons/icon.ico"

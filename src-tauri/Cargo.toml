@@ -28,6 +28,17 @@ serde = { version = "1", features = [ "derive" ] }
 serde_json = "1"
 enigo = "0.3.0"
 arboard = "3.5.0"
+tauri-plugin-process = "2.3.1"
+tauri-plugin-fs = "2.4.4"
+tauri-plugin-positioner = { version = "2.3.1", features = ["tray-icon"] }
+cocoa = "0.26.1"
+objc2 = "0.5"
+objc2-app-kit = { version = "0.2", features = ["NSWindow"] }
+objc = "0.2.7"
+
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-global-shortcut = "2"
+
+[target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))'.dependencies]
+tauri-plugin-positioner = "2.3.1"

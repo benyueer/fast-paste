@@ -1,4 +1,4 @@
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager, tray::TrayIconBuilder, Window};
 use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
 
 use enigo::{
@@ -39,6 +39,15 @@ fn set_key(app: AppHandle, key: &str) {
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
+            let main_window = app.get_webview_window("main").unwrap();
+            #[cfg(target_os = "macos")]
+            {
+              use cocoa::base::id;
+              use cocoa::appkit::{NSWindow, NSMainMenuWindowLevel};
+              let ns_win = main_window.ns_window().unwrap() as id;
+              unsafe { ns_win.setLevel_(1001 as i64); }
+            }
+
             #[cfg(desktop)]
             {
                 // let ctrl_n_shortcut = Shortcut::new(Some(Modifiers::CONTROL), Code::KeyN);
@@ -64,7 +73,20 @@ pub fn run() {
         })
         // .plugin(tauri_plugin_global_shortcut::init())
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_process::init())
+        .plugin(tauri_plugin_fs::init())
+        .plugin(tauri_plugin_positioner::init())
+        .on_tray_icon_event(|app, event| {
+            tauri_plugin_positioner::on_tray_event(app, &event)
+        })
         .invoke_handler(tauri::generate_handler![greet, set_key])
+        .on_window_event(|window, event| match event {
+            tauri::WindowEvent::CloseRequested { api, .. } => {
+                window.hide().unwrap();
+                api.prevent_close();
+            }
+            _ => {}
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

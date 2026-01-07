@@ -3,8 +3,8 @@ import { For, lazy } from 'solid-js'
 
 export const routes = [
   {
-    path: '/main',
-    redirect: '/main/paste',
+    path: '/',
+    redirect: '/tip',
     component: lazy(() => import('../views/Main')),
     label: '主页',
     children: [

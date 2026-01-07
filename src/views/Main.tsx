@@ -31,7 +31,7 @@ export default function Main(props) {
           }
         />
       </div>
-      <div w-full h="[calc(100%-52px)]">
+      <div w-full h="[calc(100%-72px)]" mt-20>
         {props.children}
       </div>
     </main>
