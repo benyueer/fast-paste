@@ -33,6 +33,7 @@ export default function Tip() {
   let editorRef: HTMLDivElement | undefined
   const [mode, setMode] = createSignal<AllMode>('wysiwyg')
   const [isPreview, setIsPreview] = createSignal(false)
+  const [showToolbar, setShowToolbar] = createSignal(true)
 
   const switchMode = async (newMode: AllMode) => {
     if (vditor && mode() !== newMode) {
@@ -74,7 +75,7 @@ export default function Tip() {
           },
           mode: isPreview() ? 'both' : 'editor',
         },
-        toolbar: [
+        toolbar: showToolbar() ? [
           'emoji',
           'headings',
           'bold',
@@ -99,7 +100,7 @@ export default function Tip() {
           '|',
           'preview',
           'fullscreen',
-        ],
+        ] : [],
         after: () => {
           console.log('Vditor is ready')
         },
@@ -117,10 +118,23 @@ export default function Tip() {
     }
   })
 
+  const toggleToolbar = async () => {
+    if (vditor) {
+      await saveFileContent(vditor.getValue())
+    }
+    setShowToolbar(!showToolbar())
+    initEditor()
+  }
+
   return (
-    <div w-full h-full border="1px solid #e5e7eb" flex="~ col">
-      <div flex="~" p-2 gap-2 border-b="1px solid #e5e7eb">
+    <div relative w-full h-full border="1px solid #e5e7eb" flex="~ col">
+      {/* <div flex="~" p-2 gap-2 border-b="1px solid #e5e7eb">
         <RadioGroup stick value={mode()} data={modeButtons} onChange={(value) => switchMode(value as EditorMode)} />
+      </div> */}
+      <div absolute top-10 right-0 flex="~" gap-2 z-10>
+        <button onClick={toggleToolbar}>
+          {showToolbar() ? '隐藏工具栏' : '显示工具栏'}
+        </button>
       </div>
       <div w-full flex-1>
         <div w-full h-full ref={editorRef} id="vditor" />

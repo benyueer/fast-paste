@@ -17,7 +17,7 @@ export default function Main(props) {
 
   return (
     <main w-full h-full>
-      <div w-full pt-10 flex justify-center>
+      {/* <div w-full pt-10 flex justify-center>
         <RadioGroup
           stick
           block
@@ -30,8 +30,8 @@ export default function Main(props) {
             }))
           }
         />
-      </div>
-      <div w-full h="[calc(100%-72px)]" mt-20>
+      </div> */}
+      <div w-full h-full>
         {props.children}
       </div>
     </main>

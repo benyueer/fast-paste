@@ -15,10 +15,11 @@
         "title": "fast-paste",
         "width": 500,
         "height": 300,
-        "decorations": false,
+        "decorations": true,
         "skipTaskbar": true,
         "transparent": true,
-        "visible": false
+        "visible": false,
+        "titleBarStyle": "Transparent"
       }
     ],
     "security": {
