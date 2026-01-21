@@ -4,11 +4,13 @@
 }
 
 html {
-  font-size: 2px;
+  font-size: 4px;
 }
 
 body {
   font-size: 10px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 html,

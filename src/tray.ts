@@ -6,8 +6,8 @@ import { Menu } from '@tauri-apps/api/menu'
 import { TrayIcon } from '@tauri-apps/api/tray'
 import { getAllWebviewWindows, getCurrentWebviewWindow, WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { getAllWindows, getCurrentWindow, Window } from '@tauri-apps/api/window'
-import { exit } from '@tauri-apps/plugin-process'
 import { moveWindow, Position } from '@tauri-apps/plugin-positioner'
+import { exit } from '@tauri-apps/plugin-process'
 import icon from '../public/icon.png'
 
 async function getImgArray() {
@@ -67,7 +67,7 @@ export default async function tray_init() {
           if (event.buttonState === 'Down') {
             return
           }
-            // eslint-disable-next-line no-case-declarations
+          // eslint-disable-next-line no-case-declarations
           const appWindow = await getWindow('main')
           if (!await appWindow?.isVisible()) {
             await moveWindow(Position.TrayCenter)
@@ -75,7 +75,8 @@ export default async function tray_init() {
             await appWindow?.unminimize()
             await appWindow?.setAlwaysOnTop(true)
             await appWindow?.setFocus()
-          } else {
+          }
+          else {
             await appWindow?.hide()
           }
           break

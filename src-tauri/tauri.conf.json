@@ -13,25 +13,25 @@
     "windows": [
       {
         "title": "fast-paste",
-        "width": 500,
-        "height": 300,
-        "decorations": true,
+        "width": 800,
+        "height": 800,
+        "decorations": false,
         "skipTaskbar": true,
         "transparent": true,
-        "visible": false,
-        "titleBarStyle": "Transparent"
+        "alwaysOnTop": true,
+        "visible": false
       }
     ],
     "security": {
       "csp": null
     },
-    "trayIcon": {
-      "iconPath": "icons/icon.png"
-    }
+    "macOSPrivateApi": true
   },
   "bundle": {
     "active": true,
-    "resources": ["../public/icon.png"],
+    "resources": [
+      "../public/icon.png"
+    ],
     "targets": "all",
     "icon": [
       "icons/icon.ico"
