@@ -16,6 +16,7 @@ type AllMode = EditorMode | "preview";
 
 const isFileExist = async (filename: string) => {
   const appDir = await appDataDir();
+  console.log(appDir);
   const filePath = await join(appDir, filename);
   return await exists(filePath);
 };
@@ -152,14 +153,14 @@ export default function Tip() {
 
   const handlerAddFile = async () => {
     if (!addFilename()) return;
-    const isExist = await isFileExist(addFilename());
-    if (isExist) {
-      message.error("文件已存在");
-      return;
-    }
     let filename = addFilename();
     if (!filename.endsWith(".md")) {
       filename += ".md";
+    }
+    const isExist = await isFileExist(filename);
+    if (isExist) {
+      message.error("文件已存在");
+      return;
     }
     await saveFileContent(filename, " ");
     await initFilelist();
