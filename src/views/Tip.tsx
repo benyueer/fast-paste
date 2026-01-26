@@ -1,8 +1,19 @@
 import { onMount, onCleanup, createSignal, For } from "solid-js";
 import Vditor from "vditor";
-import { Avatar, Button, Input, message, RadioGroup, Space } from "cui-solid";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Input,
+  message,
+  RadioGroup,
+  Space,
+} from "cui-solid";
 import "vditor/dist/index.css";
 import { join, appDataDir } from "@tauri-apps/api/path";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
 import {
   writeTextFile,
   mkdir,
@@ -63,6 +74,18 @@ export default function Tip() {
     setFileList(list);
     if (list.length > 0 && !curFile()) {
       setCurFile(list[0]);
+    }
+  };
+
+  const autoSave = async () => {
+    if (vditor && !isPreview()) {
+      const content = vditor.getValue();
+      if (content) {
+        await saveFileContent(curFile(), content);
+        console.log(
+          `[AutoSave] Saved ${curFile()} at ${new Date().toLocaleTimeString()}`,
+        );
+      }
     }
   };
 
@@ -135,6 +158,8 @@ export default function Tip() {
     if (curFile()) {
       initEditor();
     }
+    const timer = setInterval(autoSave, 10000);
+    onCleanup(() => clearInterval(timer));
   });
 
   onCleanup(() => {
@@ -171,6 +196,11 @@ export default function Tip() {
     message.success("添加成功");
   };
 
+  const handlerOpenFolder = async () => {
+    const appDir = await appDataDir();
+    await revealItemInDir(appDir);
+  };
+
   return (
     <div relative w-full h-full>
       <div
@@ -195,8 +225,9 @@ export default function Tip() {
                   color: item === curFile() ? "black" : "white",
                   background: item === curFile() ? "white" : "black",
                 }}
-                onClick={() => {
+                onClick={async () => {
                   if (curFile() === item) return;
+                  await saveFileContent(curFile(), vditor!.getValue());
                   setCurFile(item);
                   initEditor();
                 }}
@@ -232,14 +263,26 @@ export default function Tip() {
           >
             {isPreview() ? "编辑" : "预览"}
           </Button>
-          <Button
-            theme="solid"
-            type="primary"
-            size="small"
-            onClick={() => setIsAdding(true)}
+          <Dropdown
+            align="bottomRight"
+            onSelect={(name) => {
+              if (name === "add") {
+                setIsAdding(true);
+              } else if (name === "openFolder") {
+                handlerOpenFolder();
+              }
+            }}
+            menu={
+              <DropdownMenu>
+                <DropdownItem name="add">添加文件</DropdownItem>
+                <DropdownItem name="openFolder">打开文件夹</DropdownItem>
+              </DropdownMenu>
+            }
           >
-            +
-          </Button>
+            <Button theme="solid" type="primary" size="small">
+              +
+            </Button>
+          </Dropdown>
         </div>
       </div>
       <div w-full h="[calc(100%-40px)]" flex-1>

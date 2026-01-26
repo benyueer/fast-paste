@@ -29,6 +29,31 @@
     "core:window:allow-set-always-on-top",
     "core:window:allow-set-position",
     "positioner:allow-move-window",
-    "core:window:allow-start-dragging"
+    "core:window:allow-start-dragging",
+    {
+      "identifier": "opener:allow-open-path",
+      "scope": [
+        {
+          "path": "$APP_DATA_DIR"
+        },
+        {
+          "path": "$APP_DATA_DIR/**"
+        }
+      ]
+    },
+    {
+      "identifier": "opener:allow-reveal-item-in-dir",
+      "scope": [
+        {
+          "path": "$APP_DATA_DIR"
+        },
+        {
+          "path": "$APP_DATA_DIR/**"
+        },
+        {
+          "path": "/Users/**"
+        }
+      ]
+    }
   ]
 }
