@@ -90,6 +90,7 @@ export default function Tip() {
         console.log(
           `[AutoSave] Saved ${curFile()} at ${new Date().toLocaleTimeString()}`,
         );
+        message.success("保存成功");
       }
     }
   };
