@@ -78,7 +78,7 @@ export default function Tip() {
     }
   };
 
-  const autoSave = async () => {
+  const saveFile = async () => {
     if (vditor && !isPreview()) {
       const content = vditor.getValue();
       if (content) {
@@ -109,18 +109,14 @@ export default function Tip() {
         vditor = new Vditor(editorRef, {
           height: "100%",
           value: content,
-          mode: "wysiwyg",
+          mode: "sv",
           cache: {
             enable: false,
           },
+          preview: {
+            mode: "editor",
+          },
           placeholder: "Type your markdown here...",
-          // preview: {
-          //   hljs: {
-          //     style: 'github',
-          //     lineNumber: true,
-          //   },
-          //   mode: isPreview() ? 'both' : 'editor',
-          // },
           toolbar: !isPreview()
             ? [
                 "emoji",
@@ -159,8 +155,6 @@ export default function Tip() {
     if (curFile()) {
       initEditor();
     }
-    const timer = setInterval(autoSave, 10000);
-    onCleanup(() => clearInterval(timer));
   });
 
   onCleanup(() => {
@@ -273,11 +267,14 @@ export default function Tip() {
                 setIsAdding(true);
               } else if (name === "openFolder") {
                 handlerOpenFolder();
+              } else if (name === "save") {
+                saveFile();
               }
             }}
             menu={
               <DropdownMenu>
                 <DropdownItem name="add">添加文件</DropdownItem>
+                <DropdownItem name="save">保存</DropdownItem>
                 <DropdownItem name="openFolder">打开文件夹</DropdownItem>
               </DropdownMenu>
             }
