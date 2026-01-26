@@ -57,6 +57,7 @@ const saveFileContent = async (fileName: string, content: string) => {
   const appDir = await appDataDir();
   const filePath = await join(appDir, fileName);
   await writeTextFile(filePath, content);
+  console.log(`[AutoSave] Saved ${fileName}`);
 };
 
 export default function Tip() {
@@ -227,7 +228,9 @@ export default function Tip() {
                 }}
                 onClick={async () => {
                   if (curFile() === item) return;
-                  await saveFileContent(curFile(), vditor!.getValue());
+                  if (vditor) {
+                    await saveFileContent(curFile(), vditor!.getValue());
+                  }
                   setCurFile(item);
                   initEditor();
                 }}
