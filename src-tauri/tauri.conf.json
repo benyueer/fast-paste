@@ -13,8 +13,8 @@
     "windows": [
       {
         "title": "fast-paste",
-        "width": 800,
-        "height": 800,
+        "width": 500,
+        "height": 400,
         "decorations": false,
         "skipTaskbar": true,
         "transparent": true,

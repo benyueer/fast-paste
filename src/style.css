@@ -28,3 +28,11 @@ div {
 html.dark {
   background: var(--dark-bg);
 }
+
+.vditor-reset {
+  font-size: 12px !important;
+}
+
+.vditor-toolbar {
+  padding-left: 10px !important;
+}
